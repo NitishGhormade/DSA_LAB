@@ -1,0 +1,75 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+struct arrayADT{
+    int *ptr;
+    int size;
+};
+
+void create(struct arrayADT *arr){
+    printf("\nArray CREATE: \n");
+    printf("Enter the size of the array: ");
+    scanf("%d",&(arr->size));
+    arr->ptr = (int*)malloc((arr->size) * sizeof(int));
+    printf("Array Created: ");
+}
+
+void input(struct arrayADT *arr){
+    printf("\nArray Input: \n");
+    printf("Enter the Elements of the array: ");
+    for(int i=0;i < (arr->size);i++){
+        scanf("%d",&(arr->ptr[i]));
+    }
+}
+
+void insert(struct arrayADT *arr){
+    printf("\nArray INSERT: \n");
+    int idx,num;
+    printf("Enter the INDEX and ELEMENT: ");
+    scanf("%d%d",&idx,&num);
+
+    (arr->size)++;
+
+    arr->ptr = (int*)realloc(arr->ptr,(arr->size) * sizeof(int));
+
+    for(int i=((arr->size)-1);i > idx;i--){
+        arr->ptr[i] = arr->ptr[i-1];
+    }
+
+    arr->ptr[idx] = num;
+}
+
+void delete(struct arrayADT *arr){
+    printf("\nArray DELETE: \n");
+    int idx;
+    printf("Enter the INDEX: ");
+    scanf("%d",&idx);
+
+    for(int i=idx+1;i < arr->size;i++){
+        arr->ptr[i-1] = arr->ptr[i];
+    }
+
+    (arr->size)--;
+
+    arr->ptr = (int*)realloc(arr->ptr,(arr->size) * sizeof(int));
+}
+
+void print(struct arrayADT *arr){
+    printf("\nArray PRINT: \n");
+    for(int i=0;i < arr->size;i++){
+        printf("%d\n",arr->ptr[i]);
+    }
+}
+
+void main(){
+    struct arrayADT arr;
+    create(&arr);
+    input(&arr);
+    print(&arr);
+
+    insert(&arr);
+    print(&arr);
+
+    delete(&arr);
+    print(&arr);
+}
